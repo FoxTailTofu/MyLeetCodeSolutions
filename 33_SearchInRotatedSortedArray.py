@@ -19,6 +19,7 @@ class Solution:
 
     # I kinda just figure this out for no reason, need explanation
     # after needcode video i still don't know why this work because different solution lol
+    # this is just leetcode 153 actually 
     def findPivot(self, nums):
         left = 0
         right = len(nums) - 1
