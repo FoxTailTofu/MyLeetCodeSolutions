@@ -64,6 +64,26 @@ class Solution:
         dfs(0, [], 0)
         return res
 
+    # revisit at 2026/01/06
+    def combinationSum_revisit(self, candidates, target):
+        answers = []
+
+        def dfs(items,index):
+            if sum(items) == target:
+                answers.append(list(items))
+                return
+                
+            if sum(items) > target:
+                return
+
+            for i in range(index,len(candidates)):
+                items.append(candidates[i])
+                dfs(items,i)
+                items.pop()
+
+
+        dfs([],0)
+        return answers
 
 def test(c, t):
     print((Solution()).combinationSum(c, t))
