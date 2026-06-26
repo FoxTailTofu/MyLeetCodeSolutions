@@ -10,6 +10,26 @@ class Solution:
         self.q_path = []
 
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        # if the current one is p or q, this node is LCA
+        # if root is None, return none for nothing found
+        if root is None or root == p or root == q:
+            return root
+
+        # check left and right for p and q
+        left = self.lowestCommonAncestor(root.left,p,q)
+        right = self.lowestCommonAncestor(root.right,p,q)
+
+        # if p and q in both left and right, this node is LCA
+        if left and right:
+            return root
+    
+        # just return if we found p or q
+        return left or right
+
+
+    
+    # Just track the path to both p and q and compare it to get the result
+    def lowestCommonAncestor_MySolution(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         self.find([],root,p,q)
         result = None
         for i in range(min(len(self.p_path),len(self.q_path))):
@@ -18,6 +38,7 @@ class Solution:
 
         return result
 
+    
     def find(self,path,node,p,q):
         if node == None:
             return
