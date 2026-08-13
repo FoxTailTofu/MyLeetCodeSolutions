@@ -33,6 +33,27 @@ class Solution:
 
         return best
 
+    def largestRectangleArea_clean(self,heights: List[int]) -> int:
+        # by appending 0 to the end we won't have anything remaining
+        heights.append(0)
+        # we only need the index, since everytime we check the best area, the height is always the height of popped value
+        stack = [] 
+        best = 0
+
+        for index,height in enumerate(heights):
+            while len(stack) > 0 and heights[stack[-1]] > height:
+                popped = stack.pop()
+                # we find the smallest left by checking the last item in stack
+                # I still don't really understand why this works
+                left = stack[-1] if stack else -1
+                width = index - left - 1
+                best = max(best,width * heights[popped])
+            # we can always append
+            stack.append(index)
+
+
+        return best
+
     # for every column, scan to the right to find the best area
     # it's bruteforce, Time Limit Exceeded
     def largestRectangleArea_bruteforce(self, heights: List[int]) -> int:
@@ -56,7 +77,7 @@ class Solution:
 
 def test(h,a):
     start = perf_counter()
-    result = (Solution()).largestRectangleArea(h)
+    result = (Solution()).largestRectangleArea_clean(h)
     elapsed = perf_counter() - start
     if result != a:
         print(f"Failed expected={a}, got={result}, {elapsed * 1000:.1f} ms")
